@@ -1,0 +1,10 @@
+<div *ngIf="!txt" style="display: flex; flex-direction:column; justify-content: center; align-items: center;">
+    <div>Setting up..</div>
+</div>
+<div [class]="'container '+ status" *ngIf="txt">
+    <div class="count-down">{{txt}}</div>
+    <button id="cancelBtn" [class]="'btn btn-' + status" (click)="stopCountDown()">Stop</button>
+    <button id="cancelBtn" [class]="'btn btn-' + status" (click)="back()" style="margin-left: 10px;">Back</button>
+</div>
+<button id="closeBtn" class="closePos" (click)="close()">x</button>
+
