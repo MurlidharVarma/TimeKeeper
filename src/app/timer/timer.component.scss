@@ -13,3 +13,8 @@
     border: none;
     cursor: pointer;
 }
+
+.draggable{
+    -webkit-user-select: none;
+    -webkit-app-region: drag;
+}

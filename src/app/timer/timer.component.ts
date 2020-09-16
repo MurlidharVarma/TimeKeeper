@@ -11,6 +11,9 @@ export class TimerComponent implements OnInit {
 
   timerHandle: any = null;
   mins: number = 0;
+  remaining: number = 0;
+
+  isPause: boolean = false;
 
   txt: string = null;
   status: string = "green";
@@ -25,37 +28,20 @@ export class TimerComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    let countDownDate = new Date();
-    countDownDate.setMinutes(countDownDate.getMinutes() + this.mins);
-
-    this.timerHandle = setInterval(()=>{
-        let now = Date.now();
-
-        let remaining = countDownDate.getTime() - now;
-        let hours = Math.floor((remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        let minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
-        let seconds = Math.floor((remaining % (1000 * 60)) / 1000);
-
-        this.txt = hours + "h " + minutes + "m " + seconds + "s ";
-
-        if(remaining<0){
-            clearInterval(this.timerHandle);
-            this.status = "red";
-            this.txt = "Time's Up!"
-        }
-
-    },1000);
+    this.ticker(this.mins*60*1000); //converting mins to ms
   }
 
-  stopCountDown(){
-    if(this.timerHandle && this.timerHandle!=null){
-      this.status = "red";
-      this.txt = "Stopped!";
-      clearInterval(this.timerHandle);
-      this.timerHandle=null;
-      setTimeout(()=>{
-          this.router.navigate(["/config"]);
-      },2000);
+  pauseResumeCountDown(){
+    this.isPause = !this.isPause;
+    if(this.isPause){
+      if(this.timerHandle && this.timerHandle!=null){
+        this.status = "red";
+        clearInterval(this.timerHandle);
+        this.timerHandle=null;
+      }
+    }else{
+      this.status="green";
+      this.ticker(this.remaining);
     }
   }
 
@@ -72,4 +58,26 @@ export class TimerComponent implements OnInit {
     win.close();
   }
 
+  ticker(ms){
+    let countDownDate = new Date();
+    countDownDate.setMilliseconds(countDownDate.getMilliseconds() + ms);
+
+    this.timerHandle = setInterval(()=>{
+        let now = Date.now();
+
+        this.remaining = countDownDate.getTime() - now;
+        let hours = Math.floor((this.remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        let minutes = Math.floor((this.remaining % (1000 * 60 * 60)) / (1000 * 60));
+        let seconds = Math.floor((this.remaining % (1000 * 60)) / 1000);
+
+        this.txt = hours + "h " + minutes + "m " + seconds + "s ";
+
+        if(this.remaining<0){
+            clearInterval(this.timerHandle);
+            this.status = "red";
+            this.txt = "Time's Up!"
+        }
+
+    },1000);
+  }
 }

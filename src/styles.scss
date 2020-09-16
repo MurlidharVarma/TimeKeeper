@@ -10,10 +10,13 @@ html, body {
 /* CAN (MUST) BE REMOVED ! Sample Global style */
 .container {
   padding: 10px;
+  border-radius: 7px;
+  position: relative;
 }
 
 .green{
   background: lightgreen;
+  color: darkgreen;
 }
 
 .red{
@@ -51,3 +54,12 @@ html, body {
   cursor: pointer;
 }
 
+.credit{
+  font-size: 0.3rem;
+  color: grey;
+  position: absolute;
+  bottom: 3px;
+  right: 7px;
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+}

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ElectronService } from 'app/core/services';
 
@@ -9,15 +10,23 @@ import { ElectronService } from 'app/core/services';
 })
 export class ConfigComponent implements OnInit {
 
-  mins: number = 2;
-  
-  constructor(private router: Router, private es: ElectronService) { }
+  form: FormGroup;
+
+  constructor(private router: Router, private es: ElectronService, private fb: FormBuilder) {
+    this.form = this.fb.group({
+      mins: [null, Validators.compose([Validators.required, Validators.min(1), Validators.max(86400)])]
+    })
+  }
 
   ngOnInit(): void {
   }
 
   startCountDown(){
-    this.router.navigate(['timer',this.mins])
+    if(this.form.valid){
+      this.router.navigate(['timer',this.form.get("mins").value])
+    }else{
+      this.form.markAsDirty();
+    }
   }
 
   close(){

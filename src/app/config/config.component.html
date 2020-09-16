@@ -1,6 +1,13 @@
-<div class="container blue">
-    <div class="title">Count Down</div>
-    <input class="input-num" type="number" [(ngModel)]="mins">&nbsp; minutes
-    <button id="startBtn" class="btn" (click)="startCountDown()">Start</button>
+<div class="container blue" [formGroup]="form">
+    <div class="title">Time Keeper</div>
+    <span class="first-line">
+        <span class="input-container">
+            <span><input class="input-num" type="number" formControlName="mins">&nbsp; <span class="label">minutes</span></span>
+            <button id="startBtn" class="btn" (click)="startCountDown()" style="margin-left:10px;">Start</button>
+        </span>
+        <div class="error" *ngIf="form.controls.mins.touched && form.controls.mins.hasError('required')">Please enter minutes</div>
+        <div class="error" *ngIf="form.controls.mins.touched && (form.controls.mins.hasError('min') ||form.controls.mins.hasError('max'))">Value should be between 1 and 86400</div>
+    </span>
     <button id="closeBtn" class="closePos" (click)="close()">x</button>
+    <span class="credit">@aipeel</span>
 </div>
