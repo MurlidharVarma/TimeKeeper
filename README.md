@@ -6,13 +6,13 @@ A simple application for count down timer.
 
 ## Screenshots
 ![Screenshot](./screenshot.png)
+
 ## Technical Details
 Built using
 
 - Angular v10.0.14
 - Electron v9.3.0
 - Electron Builder v22.8.0
-
 
 ## Commands
 
